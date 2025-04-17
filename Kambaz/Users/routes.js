@@ -75,10 +75,10 @@ export default function UserRoutes(app) {
 
   const findCoursesForUser = async (req, res) => {
     const currentUser = req.session["currentUser"];
-    // if (!currentUser) {
-    //   res.sendStatus(401);
-    //   return;
-    // }
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
+    }
     if (currentUser.role === "ADMIN" || currentUser.role === "FACULTY") {
       const courses = await courseDao.findAllCourses();
       res.json(courses);
