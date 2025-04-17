@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
 import "dotenv/config";
 import session from "express-session";
@@ -10,6 +11,9 @@ import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
 
+const CONNECTION_STRING =  process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz" 
+mongoose.connect(CONNECTION_STRING);
+
 const app = express();
 app.use(
   cors({
@@ -18,16 +22,20 @@ app.use(
   })
 );
 
-const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "kambaz",
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    sameSite: "none",
-    secure: true
-  },
-  proxy: true
-};
+const sessionOptions = { 
+  secret: process.env.SESSION_SECRET || "kambaz", 
+  resave: false, 
+  saveUninitialized: false, 
+}; 
+
+if (process.env.NODE_ENV !== "development") { 
+  sessionOptions.proxy = true; 
+  sessionOptions.cookie = { 
+    sameSite: "none", 
+    secure: true, 
+    domain: process.env.NODE_SERVER_DOMAIN, 
+  }; 
+}
 
 app.set("trust proxy", 1);
 
