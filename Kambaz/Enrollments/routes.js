@@ -1,20 +1,20 @@
 import * as dao from "./dao.js";
 
 export default function EnrollmentRoutes(app) {
-  const enrollUserInCourse = (req, res) => {
+  const enrollUserInCourse = async (req, res) => {
     const { userId, courseId } = req.body;
-    const enrollment = dao.enrollUserInCourse(userId, courseId);
+    const enrollment = await dao.enrollUserInCourse(userId, courseId);
     res.json(enrollment);
   };
 
-  const unenrollUserFromCourse = (req, res) => {
+  const unenrollUserFromCourse = async (req, res) => {
     const { userId, courseId } = req.params;
-    const status = dao.unenrollUserFromCourse(userId, courseId);
+    const status = await dao.unenrollUserFromCourse(userId, courseId);
     res.send(status);
   };
 
-  const findAllEnrollments = (req, res) => {
-    const enrollments = dao.findAllEnrollments();
+  const findAllEnrollments = async (req, res) => {
+    const enrollments = await dao.findAllEnrollments();
     res.send(enrollments);
   };
 
