@@ -16,7 +16,6 @@ const quizSchema = new mongoose.Schema(
       enum: ["graded", "practice", "gradedSurvey", "ungradedSurvey"],
       default: "graded",
     },
-    points: { type: Number, default: 0 },
     assignmentGroup: { type: String, default: "Quizzes" },
     shuffleAnswers: { type: Boolean, default: true },
     timeLimit: { type: Number, default: 20 },
